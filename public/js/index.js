@@ -11,19 +11,14 @@ const getPageContext = () => {
   let pageName = 'HOME';
   let basePath = './';
 
-  if (path.indexOf('/services/') !== -1 || path.endsWith('/services') || path.endsWith('/services/index.html')) {
-    pageName = 'SERVICES';
-    basePath = '../';
-  } else if (path.indexOf('/approach/') !== -1) {
-    pageName = 'APPROACH';
-    basePath = '../';
-  } else if (path.indexOf('/about/') !== -1) {
-    pageName = 'ABOUT';
-    basePath = '../';
-  } else if (path.indexOf('/contact/') !== -1) {
-    pageName = 'CONTACT';
-    basePath = '../';
-  }
+  const subPages = ['services', 'approach', 'about', 'contact', 'privacy', 'terms', 'accessibility', 'email-policy'];
+  
+  subPages.forEach(page => {
+    if (path.indexOf(`/${page}/`) !== -1 || path.endsWith(`/${page}`) || path.endsWith(`/${page}/index.html`)) {
+      pageName = page.toUpperCase().replace('-', '_');
+      basePath = '../';
+    }
+  });
 
   return { pageName, basePath };
 };
@@ -96,9 +91,23 @@ const injectPageContent = (pageName) => {
       const contentTitle = contentContainer.querySelector('.content-title');
       const contentDesc = contentContainer.querySelector('.content-desc');
       if (contentTitle) contentTitle.textContent = data.CONTENT_TITLE || '';
-      if (contentDesc) contentDesc.textContent = data.CONTENT_DESC || '';
+      if (contentDesc) contentDesc.innerHTML = data.CONTENT_DESC || '';
     } else {
       contentContainer.style.display = 'none';
+    }
+  }
+
+  // 두 번째 본문 컨텐츠 (contents2)
+  const contentContainer2 = document.getElementById('contents2');
+  if (contentContainer2) {
+    if (data.CONTENT2_TITLE || data.CONTENT2_DESC) {
+      contentContainer2.style.display = 'block';
+      const contentTitle2 = contentContainer2.querySelector('.content-title');
+      const contentDesc2 = contentContainer2.querySelector('.content-desc');
+      if (contentTitle2) contentTitle2.textContent = data.CONTENT2_TITLE || '';
+      if (contentDesc2) contentDesc2.textContent = data.CONTENT2_DESC || '';
+    } else {
+      contentContainer2.style.display = 'none';
     }
   }
 
@@ -119,10 +128,10 @@ const injectPageContent = (pageName) => {
       taglineEl.textContent = data.TAGLINE;
   }
 
-  // 어바웃 페이지 상세 내용 주입
-  const aboutDetails = document.getElementById('about-details');
-  if (aboutDetails && data.DETAILS) {
-      aboutDetails.innerHTML = data.DETAILS.map(detail => `
+  // 상세 내용 주입 (어바웃, 프라이버시 등 공통)
+  const detailsContainer = document.getElementById('about-details') || document.getElementById('page-details');
+  if (detailsContainer && data.DETAILS) {
+      detailsContainer.innerHTML = data.DETAILS.map(detail => `
           <p class="content-desc" style="margin-top: 50px;">${detail}</p>
       `).join('');
   }
@@ -137,7 +146,7 @@ const injectPageContent = (pageName) => {
                 const startIndex = sectionIndex * 4;
                 const insights = data.INSIGHTS.slice(startIndex, startIndex + 4);
 
-        grid.innerHTML = insights.map((ins) => {
+        grid.innerHTML = insights.filter(ins => ins.TITLE).map((ins) => {
             const isWide = ins.WIDE ? 'card-wide' : '';
             const imgHTML = ins.IMG ? `<img src="${basePath}public/assets/images/png/${ins.IMG}" alt="${ins.TITLE}" class="img-box">` : '';
             const textHTML = ins.TITLE ? `
@@ -188,13 +197,17 @@ const injectFooter = (basePath) => {
       .map(item => `<li><a href="${getLink(item, basePath)}">${item}</a></li>`).join('');
   }
 
-  const legal = document.querySelector('.footer-legal');
-  const copyright = document.querySelector('.footer-copyright');
-  if (legal) {
-    legal.innerHTML = SITE_TEXT.FOOTER.LEGAL
-      .map(item => `<a href="#">${item}</a>`).join('');
+  const footerLegal = document.querySelector('.footer-legal');
+  const footerCopyright = document.querySelector('.footer-copyright');
+  if (footerLegal && SITE_TEXT.FOOTER.LEGAL) {
+    const legalLinks = ['terms', 'privacy', 'accessibility', 'email-policy'];
+    footerLegal.innerHTML = SITE_TEXT.FOOTER.LEGAL.map((item, index) => `
+        <a href="${basePath}${legalLinks[index]}/">${item}</a>
+    `).join('');
   }
-  if (copyright) copyright.textContent = SITE_TEXT.FOOTER.COPYRIGHT;
+  if (footerCopyright) {
+    footerCopyright.textContent = SITE_TEXT.FOOTER.COPYRIGHT;
+  }
 };
 
 /**

@@ -32,6 +32,11 @@ body {
   margin: 0 auto;
 }
 
+/* 공통 여백 */
+.mt-space {
+  margin-top: 100px !important;
+}
+
 /* 헤더 */
 #header {
   position: fixed;
@@ -168,6 +173,7 @@ section[class*="hero-"].active {
   line-height: 1.5;
   text-align: right;
   word-break: keep-all;
+  white-space: pre-wrap;
 }
 
 /* 컨텐츠 섹션 */
@@ -244,6 +250,26 @@ section[class*="hero-"].active {
   line-height: 1.6;
   text-align: left;
   word-break: keep-all;
+  white-space: pre-wrap;
+}
+
+.content-desc a {
+  color: #111111;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.content-desc a:hover {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.article-title {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #111111;
 }
 
 /* 인사이트 섹션 */
@@ -251,6 +277,24 @@ section[class*="hero-"].active {
 #insights2 {
   padding: 60px 0;
   background-color: #ffffff;
+}
+
+/* 인사이트 섹션 2 전용 레이아웃 */
+#insights2 .grid-insight {
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 30px;
+  row-gap: 60px;
+}
+
+#insights2 .card-insight {
+  grid-template-columns: 1fr 1.2fr;
+  grid-template-rows: 1fr;
+  column-gap: 30px;
+  align-items: start;
+}
+
+#insights2 .img-box {
+  aspect-ratio: 4 / 3;
 }
 
 .grid-insight {
@@ -430,7 +474,7 @@ section[class*="hero-"].active {
 .footer-tag {
   font-size: 36px;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 100px;
   font-weight: 700;
   color: #111111;
   width: 100%;
@@ -523,6 +567,20 @@ section[class*="hero-"].active {
   .grid-insight {
     grid-template-columns: 1fr;
     row-gap: 40px;
+  }
+
+  #insights2 .grid-insight {
+    grid-template-columns: 1fr;
+  }
+
+  #insights2 .card-insight {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    row-gap: 20px;
+  }
+
+  #insights2 .ins-title br {
+    display: none;
   }
 
   .footer-nav {
