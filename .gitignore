@@ -67,6 +67,7 @@ Sample/
 *.pptx
 *.docx
 *.pdf
+public/assets/images/png/
 
 # --------------------------------------------
 # 기타 제외 파일
