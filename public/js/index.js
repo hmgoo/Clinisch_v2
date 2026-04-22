@@ -45,127 +45,129 @@ const injectLayout = (basePath) => {
 };
 
 /**
- * 페이지별 컨텐츠 주입
+ * 히어로 섹션 데이터 주입
+ */
+const injectHeroSections = (data, basePath) => {
+  const heroSections = document.querySelectorAll('section[id^="hero"], section[class*="hero-"]');
+  
+  if (data.HEROES && data.HEROES.length > 0) {
+    heroSections.forEach((section, index) => {
+      const heroData = data.HEROES[index];
+      if (!heroData) return;
+      const title = section.querySelector('.hero-title');
+      const text = section.querySelector('.hero-text');
+      if (title) title.textContent = heroData.TITLE;
+      if (text) text.textContent = heroData.TEXT;
+      if (heroData.IMG) {
+        section.style.backgroundImage = `url('${basePath}public/assets/images/webp/${heroData.IMG}')`;
+      }
+    });
+  } else {
+    const heroSection = document.getElementById('hero');
+    if (!heroSection) return;
+    const heroTitle = heroSection.querySelector('.hero-title');
+    const heroText = heroSection.querySelector('.hero-text');
+    if (heroTitle) heroTitle.textContent = data.HERO_TITLE || '';
+    if (heroText) heroText.textContent = data.HERO_TEXT || '';
+    if (data.HERO_IMG) {
+      heroSection.style.backgroundImage = `url('${basePath}public/assets/images/webp/${data.HERO_IMG}')`;
+    }
+  }
+};
+
+/**
+ * 메인 컨텐츠 섹션 데이터 주입 (contents, contents2, contents3)
+ */
+const injectMainContentSections = (data) => {
+  const contentIds = ['contents', 'contents2', 'contents3'];
+  
+  contentIds.forEach((id, idx) => {
+    const container = document.getElementById(id);
+    if (!container) return;
+
+    const suffix = idx === 0 ? '' : (idx + 1).toString();
+    const titleKey = `CONTENT${suffix}_TITLE`;
+    const textKey = `CONTENT${suffix}_TEXT`;
+
+    if (data[titleKey] || data[textKey]) {
+      container.style.display = 'block';
+      const title = container.querySelector('.content-title');
+      const text = container.querySelector('.contents-text');
+      if (title) title.textContent = data[titleKey] || '';
+      if (text) text.innerHTML = data[textKey] || '';
+    } else {
+      container.style.display = 'none';
+    }
+  });
+};
+
+/**
+ * 상세 내용 및 기타 컨텐츠 주입
+ */
+const injectExtraDetails = (data) => {
+  const expList = document.getElementById('expertise-list');
+  const taglineEl = document.getElementById('tagline');
+  const detailsContainer = document.getElementById('about-details') || document.getElementById('page-details');
+
+  if (expList && data.EXPERTISE) {
+    expList.innerHTML = data.EXPERTISE.map(exp => `
+      <div class="mt-space">
+        <h4 class="ins-title" style="margin-top: 50px;">${exp.TITLE}</h4>
+        <p class="item-text" style="font-size: 20px;">${exp.TEXT}</p>
+      </div>
+    `).join('');
+  }
+
+  if (taglineEl && data.TAGLINE) taglineEl.textContent = data.TAGLINE;
+
+  if (detailsContainer && data.DETAILS) {
+    detailsContainer.innerHTML = data.DETAILS.map(detail => `
+      <p class="contents-text" style="margin-top: 50px;">${detail}</p>
+    `).join('');
+  }
+};
+
+/**
+ * 인사이트 그리드 데이터 주입
+ */
+const injectInsightsGrid = (data, basePath) => {
+  const insightSections = document.querySelectorAll('section[id^="insights"]');
+  if (!data.INSIGHTS || data.INSIGHTS.length === 0) return;
+
+  insightSections.forEach((section, sectionIndex) => {
+    const grid = section.querySelector('.grid-insight');
+    if (!grid) return;
+
+    const startIndex = sectionIndex * 4;
+    const insights = data.INSIGHTS.slice(startIndex, startIndex + 4);
+
+    grid.innerHTML = insights.filter(ins => ins.TITLE).map((ins) => {
+      const isWide = ins.WIDE ? 'card-wide' : '';
+      const imgHTML = ins.IMG ? `<img src="${basePath}public/assets/images/webp/${ins.IMG}" alt="${ins.TITLE}" class="img-box">` : '';
+      const textHTML = `
+        <div class="text-box">
+          <h4 class="ins-title">${ins.TITLE}</h4>
+          <p class="ins-text">${ins.TEXT || ''}</p>
+        </div>
+      `;
+      return `<article class="card-insight ${isWide}">${imgHTML}${textHTML}</article>`;
+    }).join('');
+  });
+};
+
+/**
+ * 페이지별 컨텐츠 주입 (메인 컨트롤러)
  */
 const injectPageContent = (pageName) => {
   const data = SITE_TEXT.PAGES[pageName];
   if (!data) return;
 
-  // 히어로 섹션 주입 (단일 또는 다중 배열 지원)
-  const heroSections = document.querySelectorAll('section[id^="hero"], section[class*="hero-"]');
   const { basePath } = getPageContext();
 
-  if (data.HEROES && data.HEROES.length > 0) {
-    // 배열 방식 (SERVICES 등)
-    heroSections.forEach((section, index) => {
-      const heroData = data.HEROES[index];
-      if (heroData) {
-        const title = section.querySelector('.hero-title');
-        const desc = section.querySelector('.hero-desc');
-        if (title) title.textContent = heroData.TITLE;
-        if (desc) desc.textContent = heroData.DESC;
-        if (heroData.IMG) {
-          section.style.backgroundImage = `url('${basePath}public/assets/images/png/${heroData.IMG}')`;
-        }
-      }
-    });
-  } else {
-    // 기존 단일 필드 방식 (HOME 등)
-    const heroSection = document.getElementById('hero');
-    if (heroSection) {
-      const heroTitle = heroSection.querySelector('.hero-title');
-      const heroDesc = heroSection.querySelector('.hero-desc');
-      if (heroTitle) heroTitle.textContent = data.HERO_TITLE || '';
-      if (heroDesc) heroDesc.textContent = data.HERO_DESC || '';
-      if (data.HERO_IMG) {
-        heroSection.style.backgroundImage = `url('${basePath}public/assets/images/png/${data.HERO_IMG}')`;
-      }
-    }
-  }
-
-  // 본문 컨텐츠 (데이터가 없으면 섹션 숨김)
-  const contentContainer = document.getElementById('contents');
-  if (contentContainer) {
-    if (data.CONTENT_TITLE || data.CONTENT_DESC) {
-      contentContainer.style.display = 'block';
-      const contentTitle = contentContainer.querySelector('.content-title');
-      const contentDesc = contentContainer.querySelector('.content-desc');
-      if (contentTitle) contentTitle.textContent = data.CONTENT_TITLE || '';
-      if (contentDesc) contentDesc.innerHTML = data.CONTENT_DESC || '';
-    } else {
-      contentContainer.style.display = 'none';
-    }
-  }
-
-  // 두 번째 본문 컨텐츠 (contents2)
-  const contentContainer2 = document.getElementById('contents2');
-  if (contentContainer2) {
-    if (data.CONTENT2_TITLE || data.CONTENT2_DESC) {
-      contentContainer2.style.display = 'block';
-      const contentTitle2 = contentContainer2.querySelector('.content-title');
-      const contentDesc2 = contentContainer2.querySelector('.content-desc');
-      if (contentTitle2) contentTitle2.textContent = data.CONTENT2_TITLE || '';
-      if (contentDesc2) contentDesc2.textContent = data.CONTENT2_DESC || '';
-    } else {
-      contentContainer2.style.display = 'none';
-    }
-  }
-
-  // 추가 컨텐츠 (전문 영역 및 슬로건) - 공통 처리
-  const expList = document.getElementById('expertise-list');
-  const taglineEl = document.getElementById('tagline');
-
-  if (expList && data.EXPERTISE) {
-      expList.innerHTML = data.EXPERTISE.map(exp => `
-          <div class="mt-space">
-              <h4 class="ins-title" style="margin-top: 50px;">${exp.TITLE}</h4>
-              <p class="item-text" style="font-size: 20px;">${exp.DESC}</p>
-          </div>
-      `).join('');
-  }
-
-  if (taglineEl && data.TAGLINE) {
-      taglineEl.textContent = data.TAGLINE;
-  }
-
-  // 상세 내용 주입 (어바웃, 프라이버시 등 공통)
-  const detailsContainer = document.getElementById('about-details') || document.getElementById('page-details');
-  if (detailsContainer && data.DETAILS) {
-      detailsContainer.innerHTML = data.DETAILS.map(detail => `
-          <p class="content-desc" style="margin-top: 50px;">${detail}</p>
-      `).join('');
-  }
-
-  // 인사이트 섹션 주입 (단일 INSIGHTS 배열로 다중 그리드 지원)
-  const insightSections = document.querySelectorAll('section[id^="insights"]');
-  if (data.INSIGHTS && data.INSIGHTS.length > 0) {
-        insightSections.forEach((section, sectionIndex) => {
-            const grid = section.querySelector('.grid-insight');
-            if (grid) {
-                // 섹션당 4개씩 배분하는 기본 방식으로 원복
-                const startIndex = sectionIndex * 4;
-                const insights = data.INSIGHTS.slice(startIndex, startIndex + 4);
-
-        grid.innerHTML = insights.filter(ins => ins.TITLE).map((ins) => {
-            const isWide = ins.WIDE ? 'card-wide' : '';
-            const imgHTML = ins.IMG ? `<img src="${basePath}public/assets/images/png/${ins.IMG}" alt="${ins.TITLE}" class="img-box">` : '';
-            const textHTML = ins.TITLE ? `
-                <div class="text-box">
-                    <h4 class="ins-title">${ins.TITLE}</h4>
-                    <p class="ins-desc">${ins.DESC || ''}</p>
-                </div>
-            ` : '';
-            
-            return `
-                <article class="card-insight ${isWide}">
-                    ${imgHTML}
-                    ${textHTML}
-                </article>
-            `;
-        }).join('');
-      }
-    });
-  }
+  injectHeroSections(data, basePath);
+  injectMainContentSections(data);
+  injectExtraDetails(data);
+  injectInsightsGrid(data, basePath);
 };
 
 /**
@@ -216,7 +218,7 @@ const injectFooter = (basePath) => {
 const setupMenuEvents = () => {
   const menuBtn = document.querySelector('.menu-btn');
   const closeBtn = document.getElementById('close-menu');
-  const sideMenu = document.getElementById('side-menu');
+  const sidePanel = document.getElementById('side-panel');
   const backdrop = document.getElementById('menu-backdrop');
   const header = document.getElementById('header');
 
@@ -231,7 +233,7 @@ const setupMenuEvents = () => {
       closeBtn.style.right = `${rightOffset + (rect.width / 2) - 15}px`;
     }
 
-    sideMenu?.classList.toggle('active', isOpen);
+    sidePanel?.classList.toggle('active', isOpen);
     backdrop?.classList.toggle('active', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
     document.body.style.paddingRight = isOpen ? `${scrollWidth}px` : '';

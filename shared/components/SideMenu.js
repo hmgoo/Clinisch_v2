@@ -4,7 +4,7 @@
  */
 export const getSideMenuHTML = (basePath = './') => `
     <div id="menu-backdrop" class="menu-backdrop"></div>
-    <nav id="side-menu" class="side-menu">
+    <nav id="side-panel" class="side-panel">
         <button class="close-btn" id="close-menu" aria-label="Close menu">
             <span class="close-line"></span>
             <span class="close-line"></span>

@@ -25,6 +25,11 @@ body {
   font-family: 'Libre Baskerville', 'Noto Serif KR', serif;
 }
 
+main {
+  padding-top: var(--header-height);
+  overflow-x: hidden;
+}
+
 /* 공통 컨테이너 */
 .container {
   width: 90%;
@@ -57,9 +62,6 @@ body {
   padding: 0 20px;
 }
 
-main {
-  padding-top: var(--header-height);
-}
 
 .logo {
   display: flex;
@@ -71,7 +73,7 @@ main {
 }
 
 .logo img {
-  height: 40px;
+  height: 30px;
   display: block;
 }
 
@@ -106,14 +108,13 @@ main {
 section[class*="hero-"] {
   position: relative;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: var(--hero-height);
   overflow: hidden;
-  background-image: url('../assets/images/png/01_hero_main.png');
+  background-image: url('../assets/images/webp/01_hero_main.webp');
   background-size: cover;
-  background-position: center;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -164,7 +165,7 @@ section[class*="hero-"].active {
   word-break: keep-all;
 }
 
-.hero-desc {
+.hero-text {
   max-width: 50%;
   margin-top: 20px;
   color: #ffffff;
@@ -177,12 +178,14 @@ section[class*="hero-"].active {
 }
 
 /* 컨텐츠 섹션 */
-#contents {
+#contents,
+#contents2,
+#contents3 {
   width: 100%;
   padding: 60px 0;
 }
 
-.content-card {
+.contents-card {
   position: relative;
   isolation: isolate;
   /* 독립적 쌓임 맥락 형성 */
@@ -194,7 +197,7 @@ section[class*="hero-"].active {
 }
 
 /* 맥킨지 스타일 배경 확장 레이어 */
-.content-card::before,
+.contents-card::before,
 .card-insight::before {
   content: '';
   position: absolute;
@@ -205,13 +208,13 @@ section[class*="hero-"].active {
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.content-card:hover,
+.contents-card:hover,
 .card-insight:hover {
   z-index: 10;
   /* 호버 시 위로 올라오게 함 */
 }
 
-.content-card:hover::before,
+.contents-card:hover::before,
 .card-insight:hover::before {
   inset: -16px;
   opacity: 1;
@@ -219,14 +222,14 @@ section[class*="hero-"].active {
   /* 그림자 약간 더 선명하게 */
 }
 
-.content-image {
+.contents-image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.text-grp {
+.contents-textbox {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -242,7 +245,7 @@ section[class*="hero-"].active {
   word-break: keep-all;
 }
 
-.content-desc {
+.contents-text {
   margin-top: 20px;
   color: #111111;
   font-size: 20px;
@@ -253,13 +256,13 @@ section[class*="hero-"].active {
   white-space: pre-wrap;
 }
 
-.content-desc a {
+.contents-text a {
   color: #111111;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.content-desc a:hover {
+.contents-text a:hover {
   color: #0000ee;
   text-decoration: underline;
 }
@@ -346,7 +349,7 @@ section[class*="hero-"].active {
   word-break: keep-all;
 }
 
-.ins-desc {
+.ins-text {
   margin-top: 20px;
   color: #111111;
   font-size: 20px;
@@ -354,25 +357,6 @@ section[class*="hero-"].active {
   line-height: 1.6;
   text-align: left;
   word-break: keep-all;
-}
-
-.grid-insight {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 40px;
-  row-gap: 40px;
-  width: 100%;
-}
-
-.card-insight {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  row-gap: 30px;
-  width: 100%;
-  min-width: 0;
-  background-color: #ffffff;
 }
 
 
@@ -484,7 +468,7 @@ section[class*="hero-"].active {
 @media (max-width: 1279px) {
 
   .hero-title,
-  .hero-desc {
+  .hero-text {
     max-width: 70%;
   }
 
@@ -492,7 +476,7 @@ section[class*="hero-"].active {
     font-size: 32px;
   }
 
-  .hero-desc {
+  .hero-text {
     font-size: 18px;
   }
 
@@ -500,7 +484,7 @@ section[class*="hero-"].active {
     font-size: 32px;
   }
 
-  .content-desc {
+  .contents-text {
     font-size: 18px;
   }
 
@@ -508,7 +492,7 @@ section[class*="hero-"].active {
     font-size: 22px;
   }
 
-  .ins-desc {
+  .ins-text {
     font-size: 18px;
   }
 
@@ -525,7 +509,7 @@ section[class*="hero-"].active {
 @media (max-width: 767px) {
 
   .hero-title,
-  .hero-desc {
+  .hero-text {
     max-width: 90%;
   }
 
@@ -533,16 +517,16 @@ section[class*="hero-"].active {
     font-size: 26px;
   }
 
-  .hero-desc {
+  .hero-text {
     font-size: 16px;
   }
 
-  .content-card {
+  .contents-card {
     grid-template-columns: 1fr;
     row-gap: 20px;
   }
 
-  .content-card::before,
+  .contents-card::before,
   .card-insight::before {
     display: none;
     /* 모바일에서는 확장 효과 제외 */
@@ -552,7 +536,7 @@ section[class*="hero-"].active {
     font-size: 28px;
   }
 
-  .content-desc {
+  .contents-text {
     font-size: 16px;
   }
 
@@ -560,7 +544,7 @@ section[class*="hero-"].active {
     font-size: 20px;
   }
 
-  .ins-desc {
+  .ins-text {
     font-size: 16px;
   }
 
@@ -595,7 +579,7 @@ section[class*="hero-"].active {
   }
 }
 
-/* 사이드 메뉴 스타일 (2단계: 애니메이션 및 인터랙션) */
+/* 사이드 패널 스타일 (2단계: 애니메이션 및 인터랙션) */
 .menu-backdrop {
   position: fixed;
   top: 0;
@@ -614,7 +598,7 @@ section[class*="hero-"].active {
   visibility: visible;
 }
 
-.side-menu {
+.side-panel {
   position: fixed;
   top: 0;
   right: 0;
@@ -629,7 +613,7 @@ section[class*="hero-"].active {
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
 }
 
-.side-menu.active {
+.side-panel.active {
   transform: translateX(0);
   /* 활성화 시 나타남 */
 }
