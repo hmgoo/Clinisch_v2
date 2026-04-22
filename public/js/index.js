@@ -4,8 +4,12 @@ import { getFooterHTML } from '../../shared/components/Footer.js';
 import { getSideMenuHTML } from '../../shared/components/SideMenu.js';
 
 /**
+ * 언어 상태 관리
+ */
+let currentLang = localStorage.getItem('site_lang') || 'EN';
+
+/**
  * 보안 설정: 클릭재킹 방지 (Frame Buster)
- * 사이트가 iframe 내에서 로드되는 것을 방지합니다.
  */
 if (window.self !== window.top) {
   window.top.location = window.self.location;
@@ -35,16 +39,37 @@ const getPageContext = () => {
  * 링크 생성 유틸리티 (클린 URL)
  */
 const getLink = (target, basePath) => {
-  if (target === 'Home') return basePath;
-  if (target === 'Korean') return '#';
-  const folder = target.toLowerCase();
-  return `${basePath}${folder}/`;
+  if (target === 'Home' || target === '홈') return basePath;
+  if (target === 'Korean' || target === 'English' || target === '영문' || target === '한국어') return 'javascript:switchLanguage()';
+  
+  const mapping = {
+    'Services': 'services/', '서비스': 'services/',
+    'Approach': 'approach/', '접근 방식': 'approach/',
+    'About': 'about/', '소개': 'about/',
+    'Contact': 'contact/', '문의하기': 'contact/',
+    'Terms of Use': 'terms/', '이용약관': 'terms/',
+    'Privacy Policy': 'privacy/', '개인정보 처리방침': 'privacy/',
+    'Accessibility Statement': 'accessibility/', '웹 접근성 선언': 'accessibility/',
+    'Prohibition of Unauthorized E-mail Collection': 'email-policy/', '이메일 무단수집 거부': 'email-policy/'
+  };
+
+  return mapping[target] ? `${basePath}${mapping[target]}` : `${basePath}${target.toLowerCase()}/`;
 };
 
 /**
- * 공통 레이아웃 주입
+ * 공통 레이아웃 주입 (초기 1회 또는 언어 전환 시)
  */
 const injectLayout = (basePath) => {
+  const existingHeader = document.getElementById('header');
+  const existingFooter = document.getElementById('footer');
+  const existingSide = document.getElementById('side-panel');
+  const existingBackdrop = document.getElementById('menu-backdrop');
+
+  if (existingHeader) existingHeader.remove();
+  if (existingFooter) existingFooter.remove();
+  if (existingSide) existingSide.remove();
+  if (existingBackdrop) existingBackdrop.remove();
+
   const main = document.querySelector('main');
   if (main) {
     main.insertAdjacentHTML('beforebegin', getHeaderHTML(basePath));
@@ -140,9 +165,13 @@ const injectExtraDetails = (data) => {
  */
 const injectInsightsGrid = (data, basePath) => {
   const insightSections = document.querySelectorAll('section[id^="insights"]');
-  if (!data.INSIGHTS || data.INSIGHTS.length === 0) return;
+  if (!data.INSIGHTS || data.INSIGHTS.length === 0) {
+    insightSections.forEach(s => s.style.display = 'none');
+    return;
+  }
 
   insightSections.forEach((section, sectionIndex) => {
+    section.style.display = 'block';
     const grid = section.querySelector('.grid-insight');
     if (!grid) return;
 
@@ -185,7 +214,8 @@ const initializeEmailProtection = () => {
  * 페이지별 컨텐츠 주입 (메인 컨트롤러)
  */
 const injectPageContent = (pageName) => {
-  const data = SITE_TEXT.PAGES[pageName];
+  const langData = SITE_TEXT[currentLang];
+  const data = langData.PAGES[pageName];
   if (!data) return;
 
   const { basePath } = getPageContext();
@@ -203,7 +233,11 @@ const injectSideMenu = (basePath) => {
   const sideNavList = document.getElementById('side-nav-list');
   if (!sideNavList) return;
 
-  const menuItems = ['Home', 'Services', 'Approach', 'About', 'Contact', 'Korean'];
+  const langData = SITE_TEXT[currentLang];
+  const menuItems = currentLang === 'EN' 
+    ? ['Home', 'Services', 'Approach', 'About', 'Contact', 'Korean']
+    : ['홈', '서비스', '접근 방식', '소개', '문의하기', 'English'];
+
   sideNavList.innerHTML = menuItems
     .map(item => `<li><a href="${getLink(item, basePath)}">${item}</a></li>`)
     .join('');
@@ -213,28 +247,29 @@ const injectSideMenu = (basePath) => {
  * 푸터 섹션 초기화
  */
 const injectFooter = (basePath) => {
+  const langData = SITE_TEXT[currentLang];
   const navCol1 = document.getElementById('footer-nav-col1');
   const navCol2 = document.getElementById('footer-nav-col2');
 
   if (navCol1) {
-    navCol1.innerHTML = SITE_TEXT.FOOTER.NAV_COL1
+    navCol1.innerHTML = langData.FOOTER.NAV_COL1
       .map(item => `<li><a href="${getLink(item, basePath)}">${item}</a></li>`).join('');
   }
   if (navCol2) {
-    navCol2.innerHTML = SITE_TEXT.FOOTER.NAV_COL2
+    navCol2.innerHTML = langData.FOOTER.NAV_COL2
       .map(item => `<li><a href="${getLink(item, basePath)}">${item}</a></li>`).join('');
   }
 
   const footerLegal = document.querySelector('.footer-legal');
   const footerCopyright = document.querySelector('.footer-copyright');
-  if (footerLegal && SITE_TEXT.FOOTER.LEGAL) {
+  if (footerLegal && langData.FOOTER.LEGAL) {
     const legalLinks = ['terms', 'privacy', 'accessibility', 'email-policy'];
-    footerLegal.innerHTML = SITE_TEXT.FOOTER.LEGAL.map((item, index) => `
+    footerLegal.innerHTML = langData.FOOTER.LEGAL.map((item, index) => `
         <a href="${basePath}${legalLinks[index]}/">${item}</a>
     `).join('');
   }
   if (footerCopyright) {
-    footerCopyright.textContent = SITE_TEXT.FOOTER.COPYRIGHT;
+    footerCopyright.textContent = langData.FOOTER.COPYRIGHT;
   }
 };
 
@@ -272,32 +307,53 @@ const setupMenuEvents = () => {
 };
 
 /**
+ * 언어 전환 함수 (전역 등록)
+ */
+window.switchLanguage = () => {
+  currentLang = currentLang === 'EN' ? 'KO' : 'EN';
+  localStorage.setItem('site_lang', currentLang);
+  
+  // HTML lang 속성 업데이트
+  document.documentElement.lang = currentLang.toLowerCase();
+  
+  // 새로고침 없이 컨텐츠 재주입
+  initializeApp();
+  
+  // 사이드 패널 닫기 (모바일 대응)
+  const sidePanel = document.getElementById('side-panel');
+  const backdrop = document.getElementById('menu-backdrop');
+  sidePanel?.classList.remove('active');
+  backdrop?.classList.remove('active');
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+};
+
+/**
  * 전체 어플리케이션 초기화
  */
 const initializeApp = () => {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
-
+  
   const { pageName, basePath } = getPageContext();
-  injectLayout(basePath);
+  const langData = SITE_TEXT[currentLang];
+  
+  document.documentElement.lang = currentLang.toLowerCase();
+  document.title = langData.TITLE;
 
-  document.title = SITE_TEXT.TITLE;
-  injectPageContent(pageName); // 페이지별 컨텐츠 주입
+  injectLayout(basePath);
+  injectPageContent(pageName);
   injectSideMenu(basePath);
   injectFooter(basePath);
   setupMenuEvents();
-  setupScrollAnimations(); // 스크롤 감지 활성화
-  initializeEmailProtection(); // 이메일 보호 해제
+  setupScrollAnimations();
+  initializeEmailProtection();
 };
 
 /**
  * 스크롤 감지 및 애니메이션 실행 (Intersection Observer)
  */
 const setupScrollAnimations = () => {
-  const observerOptions = {
-    threshold: 0.15 // 섹션의 15%가 보이면 실행
-  };
-
+  const observerOptions = { threshold: 0.15 };
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -306,7 +362,6 @@ const setupScrollAnimations = () => {
     });
   }, observerOptions);
 
-  // 모든 히어로 섹션 및 reveal 클래스 감시
   const targets = document.querySelectorAll('#hero, section[class*="hero-"], .reveal');
   targets.forEach(target => observer.observe(target));
 };
