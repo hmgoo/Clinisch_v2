@@ -437,7 +437,7 @@ section[class*="hero-"].active {
 
 .footer-legal a {
   color: #000000;
-  font-size: 14px;
+  font-size: 13px;
   text-decoration: none;
   transition: opacity 0.3s ease;
 }
@@ -451,7 +451,7 @@ section[class*="hero-"].active {
 .footer-copyright {
   margin: 0;
   color: #000000;
-  font-size: 14px;
+  font-size: 13px;
   text-align: right;
 }
 

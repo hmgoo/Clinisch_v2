@@ -6,7 +6,7 @@ import { getSideMenuHTML } from '../../shared/components/SideMenu.js';
 /**
  * 언어 상태 관리
  */
-let currentLang = localStorage.getItem('site_lang') || 'EN';
+let currentLang = sessionStorage.getItem('site_lang') || 'EN';
 
 /**
  * 보안 설정: 클릭재킹 방지 (Frame Buster)
@@ -311,7 +311,7 @@ const setupMenuEvents = () => {
  */
 window.switchLanguage = () => {
   currentLang = currentLang === 'EN' ? 'KO' : 'EN';
-  localStorage.setItem('site_lang', currentLang);
+  sessionStorage.setItem('site_lang', currentLang);
   
   // HTML lang 속성 업데이트
   document.documentElement.lang = currentLang.toLowerCase();
