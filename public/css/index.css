@@ -257,9 +257,9 @@ section[class*="hero-"].active {
 }
 
 .contents-text a {
-  color: #111111;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  color: #0000ee;
+  text-decoration: underline;
+  transition: none;
 }
 
 .contents-text a:hover {
@@ -574,7 +574,8 @@ section[class*="hero-"].active {
 
   .footer-legal {
     grid-template-columns: 1fr;
-    justify-content: start;
+    justify-items: end;
+    text-align: right;
     gap: 16px;
   }
 }

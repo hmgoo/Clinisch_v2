@@ -4,6 +4,14 @@ import { getFooterHTML } from '../../shared/components/Footer.js';
 import { getSideMenuHTML } from '../../shared/components/SideMenu.js';
 
 /**
+ * 보안 설정: 클릭재킹 방지 (Frame Buster)
+ * 사이트가 iframe 내에서 로드되는 것을 방지합니다.
+ */
+if (window.self !== window.top) {
+  window.top.location = window.self.location;
+}
+
+/**
  * 현재 페이지의 깊이 및 페이지 이름 감지
  */
 const getPageContext = () => {
@@ -156,6 +164,24 @@ const injectInsightsGrid = (data, basePath) => {
 };
 
 /**
+ * 이메일 주소 보호 해제 및 링크 생성
+ */
+const initializeEmailProtection = () => {
+  const protectedEmails = document.querySelectorAll('.protected-email');
+  protectedEmails.forEach(el => {
+    const user = el.getAttribute('data-user');
+    const domain = el.getAttribute('data-domain');
+    if (user && domain) {
+      const email = `${user}@${domain}`;
+      const link = document.createElement('a');
+      link.href = `mailto:${email}`;
+      link.textContent = email;
+      el.parentNode.replaceChild(link, el);
+    }
+  });
+};
+
+/**
  * 페이지별 컨텐츠 주입 (메인 컨트롤러)
  */
 const injectPageContent = (pageName) => {
@@ -261,6 +287,7 @@ const initializeApp = () => {
   injectFooter(basePath);
   setupMenuEvents();
   setupScrollAnimations(); // 스크롤 감지 활성화
+  initializeEmailProtection(); // 이메일 보호 해제
 };
 
 /**

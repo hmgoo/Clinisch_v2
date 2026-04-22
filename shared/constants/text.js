@@ -117,7 +117,7 @@ export const SITE_TEXT = {
       HERO_TITLE: "Contact",
       HERO_TEXT: "We welcome collaborations across clinical services, data science, and life sciences.\nReach out to discuss how Clinisch & Co. can support your organization.",
       CONTENT_TITLE: "Clinisch & Co. LLC.",
-      CONTENT_TEXT: "323 Incheon Tower-daero, Yeonsu-gu\nIncheon, South Korea 22007\n\nSupport: <a href='mailto:support@clinisch.com'>support@clinisch.com</a>",
+      CONTENT_TEXT: "323 Incheon Tower-daero, Yeonsu-gu\nIncheon, South Korea 22007\n\nSupport: <span class='protected-email' data-user='support' data-domain='clinisch.com'></span>",
       INSIGHTS: []
     },
     PRIVACY: {
@@ -131,7 +131,7 @@ export const SITE_TEXT = {
         "<strong class='article-title'>Article 3 (Technical Data Collection - GitHub Hosting)</strong>\nThis Site is hosted and operated via the GitHub, Inc. platform. For the purposes of maintaining security and operational stability, GitHub may automatically collect certain technical information, including but not limited to IP addresses, access logs, and browser types. The processing of such data is governed by the GitHub Privacy Statement.",
         "<strong class='article-title'>Article 4 (Information We Use)</strong>\nWe may use generative artificial intelligence (AI) tools to create synthetic images and visuals for illustrative purposes. These images are AI-generated and do not depict real people or events unless otherwise noted.",
         "<strong class='article-title'>Article 5 (External Links)</strong>\nThis Site may contain links to third-party websites. Clinisch & Co. is not responsible for the privacy practices of such external sites. We encourage you to review the privacy policies of any third-party site you visit.",
-        "<strong class='article-title'>Article 6 (Contact Information)</strong>\nIf you have any questions regarding this Privacy Policy or our Site, please contact us at: <a href='mailto:support@clinisch.com'>support@clinisch.com</a>",
+        "<strong class='article-title'>Article 6 (Contact Information)</strong>\nIf you have any questions regarding this Privacy Policy or our Site, please contact us at: <span class='protected-email' data-user='support' data-domain='clinisch.com'></span>",
         "Posted: Jan 1, 2026"
       ],
       INSIGHTS: []
@@ -157,7 +157,7 @@ export const SITE_TEXT = {
       DETAILS: [
         "<strong class='article-title'>1. Key Features</strong>\n• High Contrast: Text and background contrast ratio is maintained well above the 4.5:1 requirement (currently ~13:1).\n• Semantic HTML: Proper use of HTML5 elements (header, main, footer, etc.) to ensure clear document structure.\n• Language Attributes: Correct lang attributes are applied to each page to ensure proper processing by assistive technologies.\n• Responsive Design: Layout is optimized for access across various devices and screen sizes.",
         "<strong class='article-title'>2. Known Limitations</strong>\n• Skip Links: A mechanism to skip repetitive header content has not been implemented yet.\n• Icon Labels: Some icon-only buttons (e.g., hamburger menu) may lack descriptive text labels for screen readers.",
-        "<strong class='article-title'>3. Feedback and Contact</strong>\nWe welcome your feedback on the accessibility of our website. Please contact us at the following if you encounter accessibility barriers: <a href='mailto:support@clinisch.com'>support@clinisch.com</a>",
+        "<strong class='article-title'>3. Feedback and Contact</strong>\nWe welcome your feedback on the accessibility of our website. Please contact us at the following if you encounter accessibility barriers: <span class='protected-email' data-user='support' data-domain='clinisch.com'></span>",
         "Posted: Jan 1, 2026"
       ],
       INSIGHTS: []
