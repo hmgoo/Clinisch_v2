@@ -269,7 +269,8 @@ const injectFooter = (basePath) => {
     `).join('');
   }
   if (footerCopyright) {
-    footerCopyright.textContent = langData.FOOTER.COPYRIGHT;
+    const currentYear = new Date().getFullYear();
+    footerCopyright.textContent = langData.FOOTER.COPYRIGHT.replace('2026', currentYear);
   }
 };
 
