@@ -15,8 +15,7 @@ export const SITE_TEXT = {
     },
     PAGES: {
       HOME: {
-        HERO_TITLE: "Where Clinical Communication Meets Data Science & Integration",
-        HERO_TEXT: "Clinical communication transformed into structured, actionable data—powering seamless integration across healthcare and research systems.",
+        HERO_TITLE: "Where Clinical Communication Meets Data Science and Integration",
         CONTENT_TITLE: "Clinical Intelligence and Life Science Advisory",
         CONTENT_TEXT: "Integrated senior expertise in clinical consulting, data science, and life sciences to enable better decision-making in complex healthcare systems",
         INSIGHTS: [
@@ -41,13 +40,11 @@ export const SITE_TEXT = {
       SERVICES: {
         HEROES: [
           {
-            TITLE: "How we work with Life Science Companies",
-            TEXT: "Providing hands-on, senior-led support where experienced clinical leadership is needed.",
+            TITLE: "How we work",
             IMG: "02_hero_service.webp"
           },
           {
-            TITLE: "Clinical Workflow Architecture",
-            TEXT: "From consultation to results reporting, Clinisch provides a step-by-step flow.",
+            TITLE: "Clinical Workflow<br>Architecture",
             IMG: "0205_roadmap.webp"
           }
         ],
@@ -76,8 +73,7 @@ export const SITE_TEXT = {
         ]
       },
       APPROACH: {
-        HERO_TITLE: "Our Approach",
-        HERO_TEXT: "Trusted clinical and life science advisory through integrated clinical leadership and data science.",
+        HERO_TITLE: "The Journey Together",
         HERO_IMG: "03_hero_approach.webp",
         CONTENT_TITLE: "Our Approach",
         CONTENT_TEXT: "We operate through a fully integrated model that connects clinical expertise, data science, and life science strategy. This ensures continuity from insight to execution, enabling clear, data-driven decision-making in complex healthcare environments.",
@@ -90,8 +86,7 @@ export const SITE_TEXT = {
         INSIGHTS: []
       },
       ABOUT: {
-        HERO_TITLE: "About Clinisch & Co.",
-        HERO_TEXT: "Expert-led, execution-first clinical support",
+        HERO_TITLE: "Who We Are",
         HERO_IMG: "04_hero_about.webp",
         CONTENT_TITLE: "About Clinisch & Co.",
         CONTENT_TEXT: "Clinisch & Co. is a clinical services company that connects clinical leadership with data science and integration, enabling sponsors and CROs to perform at their best.",
@@ -108,15 +103,14 @@ export const SITE_TEXT = {
       },
       CONTACT: {
         HERO_IMG: "05_hero_contact.webp",
-        HERO_TITLE: "Contact",
-        HERO_TEXT: "We welcome collaborations across clinical services, data science, and life sciences.\nReach out to discuss how Clinisch & Co. can support your organization.",
+        HERO_TITLE: "Find Your Solution",
+        CONTENT_TOP_TEXT: "We welcome collaborations across clinical services, data science, and life sciences. Reach out to discuss how Clinisch & Co. can support your organization. Together, we can navigate the complexities of your industry and drive meaningful impact.",
         CONTENT_TITLE: "Clinisch & Co. LLC.",
         CONTENT_TEXT: "323 Incheon Tower-daero, Yeonsu-gu\nIncheon, South Korea 22007\n\nSupport: <span class='protected-email' data-user='support' data-domain='clinisch.com'></span>",
         INSIGHTS: []
       },
       PRIVACY: {
         HERO_TITLE: "Privacy Policy",
-        HERO_TEXT: "",
         CONTENT_TITLE: "Privacy Policy",
         CONTENT_TEXT: "Clinisch & Co. (\"Company\") values your privacy. This Privacy Policy outlines how information is handled in relation to your use of this website (\"Site\").",
         DETAILS: [
@@ -185,7 +179,6 @@ export const SITE_TEXT = {
     PAGES: {
       HOME: {
         HERO_TITLE: "임상 커뮤니케이션과 데이터 과학 및 통합이 만나는 곳",
-        HERO_TEXT: "임상 커뮤니케이션을 구조화되고 즉각 활용 가능한 데이터로 변환하여, 의료 및 연구 시스템 전반에 걸친 원활한 통합을 지원합니다.",
         CONTENT_TITLE: "임상 인텔리전스 및 라이프 사이언스 자문",
         CONTENT_TEXT: "복잡한 헬스케어 시스템 내에서 최선의 의사결정을 내릴 수 있도록 임상 컨설팅, 데이터 사이언스 및 생명과학 분야의 통합된 시니어 전문성을 제공합니다.",
         INSIGHTS: [
@@ -211,12 +204,10 @@ export const SITE_TEXT = {
         HEROES: [
           {
             TITLE: "생명과학 기업과의 협업 방식",
-            TEXT: "경험이 풍부한 시니어급 임상 리더십이 필요한 곳에 직접 실무를 주도하는 전문적인 지원을 제공합니다.",
             IMG: "02_hero_service.webp"
           },
           {
             TITLE: "임상 워크플로우 아키텍처",
-            TEXT: "초기 상담부터 최종 결과 보고까지, 클리니쉬앤코는 체계적인 단계별 흐름을 제공합니다.",
             IMG: "0205_roadmap.webp"
           }
         ],
@@ -246,7 +237,6 @@ export const SITE_TEXT = {
       },
       APPROACH: {
         HERO_TITLE: "우리의 접근 방식",
-        HERO_TEXT: "통합된 임상 리더십과 데이터 사이언스를 바탕으로 신뢰할 수 있는 임상 및 생명과학 자문 서비스를 제공합니다.",
         HERO_IMG: "03_hero_approach.webp",
         CONTENT_TITLE: "우리의 접근 방식",
         CONTENT_TEXT: "우리는 임상 전문성, 데이터 사이언스, 그리고 생명과학 전략을 하나로 묶는 완전 통합 모델을 통해 운영됩니다. 이는 통찰력에서 실행에 이르기까지 연속성을 보장하며, 복잡한 헬스케어 환경 내에서 명확하고 데이터에 기반한 의사결정을 가능하게 합니다.",
@@ -260,7 +250,6 @@ export const SITE_TEXT = {
       },
       ABOUT: {
         HERO_TITLE: "Clinisch & Co. 소개",
-        HERO_TEXT: "시니어 주도, 실행 중심의 임상 지원 전문성",
         HERO_IMG: "04_hero_about.webp",
         CONTENT_TITLE: "Clinisch & Co. 소개",
         CONTENT_TEXT: "클리니쉬앤코는 임상 리더십과 데이터 사이언스 및 기술 통합을 결합하여, 의뢰사와 CRO가 최고의 성과를 낼 수 있도록 지원하는 임상 서비스 기업입니다.",
@@ -278,7 +267,7 @@ export const SITE_TEXT = {
       CONTACT: {
         HERO_IMG: "05_hero_contact.webp",
         HERO_TITLE: "문의하기",
-        HERO_TEXT: "임상 서비스, 데이터 사이언스 및 생명과학 분야의 협업을 환영합니다.\n클리니쉬앤코가 귀하의 조직을 어떻게 지원할 수 있는지 논의해 보세요.",
+        CONTENT_TOP_TEXT: "우리는 임상 서비스, 데이터 사이언스 및 생명과학 전반에 걸친 협업을 환영합니다. Clinisch & Co.가 귀하의 조직을 어떻게 지원할 수 있는지 논의하려면 연락 주시기 바랍니다. 우리는 함께 업계의 복잡성을 헤쳐나가고 의미 있는 영향을 만들어낼 수 있습니다.",
         CONTENT_TITLE: "Clinisch & Co. LLC.",
         CONTENT_TEXT: "인천광역시 연수구 인천타워대로 323 (송도동, 송도센트로드)\n우편번호: 22007 (대한민국)\n\n지원문의: <span class='protected-email' data-user='support' data-domain='clinisch.com'></span>",
         INSIGHTS: []

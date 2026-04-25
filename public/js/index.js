@@ -89,8 +89,8 @@ const injectHeroSections = (data, basePath) => {
       if (!heroData) return;
       const title = section.querySelector('.hero-title');
       const text = section.querySelector('.hero-text');
-      if (title) title.textContent = heroData.TITLE;
-      if (text) text.textContent = heroData.TEXT;
+      if (title) title.innerHTML = heroData.TITLE;
+      if (text) text.innerHTML = heroData.TEXT;
       if (heroData.IMG) {
         section.style.backgroundImage = `url('${basePath}public/assets/images/webp/${heroData.IMG}')`;
       }
@@ -100,8 +100,8 @@ const injectHeroSections = (data, basePath) => {
     if (!heroSection) return;
     const heroTitle = heroSection.querySelector('.hero-title');
     const heroText = heroSection.querySelector('.hero-text');
-    if (heroTitle) heroTitle.textContent = data.HERO_TITLE || '';
-    if (heroText) heroText.textContent = data.HERO_TEXT || '';
+    if (heroTitle) heroTitle.innerHTML = data.HERO_TITLE || '';
+    if (heroText) heroText.innerHTML = data.HERO_TEXT || '';
     if (data.HERO_IMG) {
       heroSection.style.backgroundImage = `url('${basePath}public/assets/images/webp/${data.HERO_IMG}')`;
     }
@@ -121,13 +121,22 @@ const injectMainContentSections = (data) => {
     const suffix = idx === 0 ? '' : (idx + 1).toString();
     const titleKey = `CONTENT${suffix}_TITLE`;
     const textKey = `CONTENT${suffix}_TEXT`;
+    const topTextKey = `CONTENT${suffix}_TOP_TEXT`;
 
-    if (data[titleKey] || data[textKey]) {
+    if (data[titleKey] || data[textKey] || data[topTextKey]) {
       container.style.display = 'block';
       const title = container.querySelector('.content-title');
-      const text = container.querySelector('.contents-text');
+      const topText = container.querySelector('.top-text');
+      const text = topText 
+        ? Array.from(container.querySelectorAll('.contents-text')).find(el => el !== topText)
+        : container.querySelector('.contents-text');
+
       if (title) title.textContent = data[titleKey] || '';
       if (text) text.innerHTML = data[textKey] || '';
+      if (topText) {
+        topText.innerHTML = data[topTextKey] || '';
+        topText.style.display = data[topTextKey] ? 'block' : 'none';
+      }
     } else {
       container.style.display = 'none';
     }
@@ -181,9 +190,15 @@ const injectInsightsGrid = (data, basePath) => {
     grid.innerHTML = insights.filter(ins => ins.TITLE).map((ins) => {
       const isWide = ins.WIDE ? 'card-wide' : '';
       const imgHTML = ins.IMG ? `<img src="${basePath}public/assets/images/webp/${ins.IMG}" alt="${ins.TITLE}" class="img-box">` : '';
+      let titleHTML = ins.TITLE;
+      if (titleHTML.includes('<br>')) {
+        const parts = titleHTML.split('<br>');
+        titleHTML = `<span class="ins-num">${parts[0].trim()}</span><span class="ins-name">${parts[1].trim()}</span>`;
+      }
+
       const textHTML = `
         <div class="text-box">
-          <h4 class="ins-title">${ins.TITLE}</h4>
+          <h4 class="ins-title">${titleHTML}</h4>
           <p class="ins-text">${ins.TEXT || ''}</p>
         </div>
       `;
